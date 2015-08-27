@@ -11,14 +11,14 @@
 
     "bower": "*",
     "bower-config": "*",
-    "coffee-script": "*",
 
-    "grunt-cli": "*",
+    "grunt": "*",
 
     "load-grunt-tasks": "*",
 
     "grunt-contrib-clean": "*",
     "grunt-contrib-concat": "*",
+    "grunt-contrib-copy": "*",
     "grunt-contrib-less": "*",
 
     "grunt-contrib-connect": "*",
