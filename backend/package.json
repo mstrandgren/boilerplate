@@ -3,15 +3,15 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "coffee-script": "^1.9.x",
-    "connect": "~3.4.0",
-    "express": "^4.13.3",
-    "http": "0.0.0",
-    "https": "~1.0.0",
-    "lodash": "~3.10.0",
-    "promise": "~7.0.3",
-    "proxywrap": "~0.2.0",
-    "ws": "~0.7.2"
+    "coffee-script": "*",
+    "connect": "*",
+    "express": "*",
+    "http": "*",
+    "https": "*",
+    "lodash": "*",
+    "promise": "*",
+    "proxywrap": "*",
+    "ws": "*"
   },
   "engines": {
     "node": ">=0.10.0"

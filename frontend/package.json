@@ -8,26 +8,35 @@
     "node": ">=0.10.0"
   },
   "devDependencies": {
+
     "bower": "*",
-    "connect": "*",
-    "coffee-script": "*",
     "bower-config": "*",
+    "coffee-script": "*",
+
     "grunt-cli": "*",
-    "grunt-connect-proxy": "*",
+
+    "load-grunt-tasks": "*",
+
     "grunt-contrib-clean": "*",
     "grunt-contrib-concat": "*",
-    "grunt-contrib-connect": "*",
     "grunt-contrib-less": "*",
-    "grunt-contrib-uglify": "*",
+
+    "grunt-contrib-connect": "*",
+
+    "grunt-connect-proxy": "*",
     "grunt-contrib-watch": "*",
-    "coffee-react": "*",
-    "coffee-reactify": "*",
-    "load-grunt-tasks": "*",
+
     "grunt-browserify": "*",
     "coffeeify": "*",
-    "time-grunt": "*",
-    "grunt-s3": "*",
+    "coffee-react": "*",
+    "coffee-reactify": "*",
+
+    "grunt-contrib-uglify": "*",
     "grunt-cache-bust": "*",
-    "grunt-manifest": "*"
+    "grunt-manifest": "*",
+
+    "grunt-aws-s3": "*",
+
+    "time-grunt": "*"
   }
 }

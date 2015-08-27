@@ -1,15 +1,10 @@
 
-wss = require('./WebSocketServer.coffee')
+server = require('./Server.coffee')
 
-wss.start
+server.start
 	port: process.env.PORT ? 9000
-	onClose: (connection) ->
-		removeVillager(connection)
-
-	onMessage: (connection, message) ->
-		if message.isMobile
-			return addVillager(connection)
-		if message.villagerRotation
-
-			return updateVillagerRotation(connection, message.villagerRotation)
-
+	cors: true
+	webServer: (app) ->
+		app.use (request, response) ->
+			response.statusCode = 200
+			response.end "Hello, world!"

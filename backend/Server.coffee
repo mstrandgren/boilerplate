@@ -12,16 +12,32 @@ proxiedHttp = require('proxywrap').proxy(http, strict: false)
 
 MAX_CONNECTIONS = 1000
 
-start = ({port, httpsPort, onConnect, onMessage, onClose}) ->
+start = ({
+	cors
+	httpPort
+	httpsPort
+	webServer
 
-	app = require('express')()
+	enableWebSockets
+	onConnect
+	onMessage
+	onClose
+
+}) ->
 
 	port ?= 9000
 	httpsPort ?= port + 43
 
-	app.get '/', (req, res) ->
-		res.header('Content-type', 'text/plain')
-		res.send "Polo!"
+	app = require('express')()
+
+	if cors
+		app.use (req, res, next) ->
+		  res.header("Access-Control-Allow-Origin", "*")
+		  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+		  next()
+
+
+	webServer?(app)
 
 	httpServer = proxiedHttp.createServer(app).listen(port)
 
@@ -30,13 +46,13 @@ start = ({port, httpsPort, onConnect, onMessage, onClose}) ->
 		cert: fs.readFileSync(path.resolve(__dirname, 'server.crt'))
 	httpsServer = https.createServer(options, app).listen(httpsPort)
 
+	if enableWebSockets != false
+		WebSocketServer = require('ws').Server
+		wsServer = new WebSocketServer
+			server: httpServer
 
-	WebSocketServer = require('ws').Server
-	wsServer = new WebSocketServer
-		server: httpServer
-
-	wsServer.on 'connect', (connection) ->
-		addConnection(connection, {onConnect, onMessage, onClose})
+		wsServer.on 'connect', (connection) ->
+			addConnection(connection, {onConnect, onMessage, onClose})
 
 addConnection = (connection, {onConnect, onMessage, onClose}) ->
 	if connections.size > MAX_CONNECTIONS
@@ -63,7 +79,10 @@ addConnection = (connection, {onConnect, onMessage, onClose}) ->
 
 	connection.on 'message', (data) ->
 		message = JSON.parse(data.utf8Data)
-		onMessage?(connection, message)
+		onMessage?(message, connection)?.then?((result) ->
+			connection.send(JSON.stringify(result)))
+		.then(null, (error) ->
+			connection.send(JSON.stringify({error: error.toString()})))
 
 broadcast = (message) ->
 	connections.forEach (connection) ->

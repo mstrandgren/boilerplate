@@ -2,9 +2,18 @@ module.exports = (grunt) ->
 	grunt.config.merge
 
 		# Paths
-		template:
+		paths:
 			build: 'build'
 			bower: 'bower_components'
+			deploy: 'boilerplate'
+
+		resource_types: ['jpg','jpeg','png','gif','json','epub']
+		static_paths: [
+			'bower_components'
+			'resources'
+			'res'
+			'lib'
+		]
 
 		build:
 			template:
@@ -12,7 +21,7 @@ module.exports = (grunt) ->
 					'clean'
 					'copy'
 					'less'
-					'browserify'
+					'browserify:react'
 					# 'cacheBust'
 					# 'manifest'
 				]
@@ -22,23 +31,29 @@ module.exports = (grunt) ->
 				cwd: '.'
 
 		clean:
-			template: ['<%= template.build %>']
+			template: ['<%= paths.build %>']
 
 		browserify:
-			template:
+			normal:
 				files:
-					'<%= template.build %>/main.js': ['src/main.cjsx']
+					'<%= paths.build %>/app.js': ['src/main.coffee']
+				options:
+					transform: ['coffeeify']
+
+			react:
+				files:
+					'<%= paths.build %>/app.js': ['src/main.cjsx']
 				options:
 					transform: ['coffee-reactify']
 
 		less:
-			template:
+			all:
 				options:
 					paths: [
 						'src'
 					]
 				files:
-					'build/style.css': 'src/{**/,}*.less'
+					'<%= paths.build %>/style.css': 'src/{**/,}*.less'
 				expand: true
 
 		copy:
@@ -46,29 +61,29 @@ module.exports = (grunt) ->
 				expand: true
 				cwd: 'src'
 				src: ['*.html']
-				dest: '<%= template.build %>'
+				dest: '<%= paths.build %>'
 			resources:
 				expand: true
 				cwd: 'src'
-				src: ['{,**/}*.{jpg,png,gif,json,epub}']
-				dest: '<%= template.build %>'
+				src: ["{,**/}*.{<%= resource_types.join(',') %>}"]
+				dest: '<%= paths.build %>'
 			bower:
 				expand: true
 				cwd: 'bower_components'
 				src: ['{,**/}*.{js,css}']
-				dest: '<%= template.build %>/bower_components'
+				dest: '<%= paths.build %>/bower_components'
 
 		cacheBust:
 			assets:
 				files: [
 					expand: true
-					src: ['<%= template.build %>/{,**/}*.html']
+					src: ['<%= paths.build %>/{,**/}*.html']
 				]
 
 		manifest:
 			generate:
 				options:
-					basePath: "<%= template.build %>"
+					basePath: "<%= paths.build %>"
 					# network: ["http://*", "https://*"]
 					# fallback: ["/ /offline.html"]
 					# exclude: ["js/jquery.min.js"]
@@ -79,19 +94,19 @@ module.exports = (grunt) ->
 						"{,**/}*.*.js"
 						"{,**/}*.*.css"
 				]
-				dest: "<%= template.build %>/voc.appcache"
+				dest: "<%= paths.build %>/app.appcache"
 
 		uglify:
 			options:
 				mangle: true
 				beautify: false
 
-			template:
+			all:
 				files: [
 					expand: true
-					cwd: '<%= template.build %>'
+					cwd: '<%= paths.build %>'
 					src: '*.js'
-					dest: '<%= template.build %>'
+					dest: '<%= paths.build %>'
 				]
 
 	grunt.registerMultiTask 'build', 'Build app', ->
