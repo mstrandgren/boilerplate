@@ -5,7 +5,7 @@ GREEN='\033[0;32m'
 CYAN='\033[0;36m'
 NC='\033[0m'
 
-run() {
+create_project() {
 	check_environment || exit 1
 
 	working_dir=$(pwd -P)
@@ -101,6 +101,10 @@ get_boilerplate() {
 
 	cp boilerplate/.gitignore .
 
+	if [ $license -eq 1 ]; then
+		cp boilerplate/LICENSE .
+	fi
+
 	if [ $2 = "frontend" ]; then
 		cp -Rf boilerplate/frontend/* .
 		frontend_dir="$project_dir"
@@ -181,6 +185,7 @@ Usage: boilerplate [opts] [branch] project_name
 -r		Create remote repo (will prompt for bitbucket credentials the first time)
 -p		Create sublime project
 -b <branch>	Use a specific branch, other than master
+-l		Give the project an MIT license (you need to change the name in the license manually)
 -h		Show this help message
 "
 
@@ -190,15 +195,17 @@ frontend=0
 backend=0
 remote_repo=0
 sublime_project=0
+license=0
 branch="master"
 
-while	getopts "hcsrpb:" opt; do
+while	getopts "hcsrplb:" opt; do
 	case "$opt" in
 		h) show_help; exit 0;;
 		c) frontend=1;;
 		s) backend=1;;
 		r) remote_repo=1;;
 		p) sublime_project=1;;
+		l) license=1;;
 		b) branch=$OPTARG;;
 		\?) show_help; exit 1;;
 	esac
@@ -219,15 +226,4 @@ if [[ $frontend -eq 0 && $backend -eq 0 ]]; then
 	backend=1
 fi
 
-# echo "frontend: $frontend"
-# echo "backend: $backend"
-# echo "remote_repo: $remote_repo"
-# echo "sublime_project: $sublime_project"
-# echo "branch: $branch"
-# echo "project_name: $project_name"
-
-run
-
-# Bitbucket credentials for boilerplate script
-# export BOILERPLATE_BBUSER=mostformal
-# export BOILERPLATE_BBKEY=lad7bkoEcaTxt2AmogsvjNGhRsePptaX
+create_project
