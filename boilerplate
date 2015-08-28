@@ -55,17 +55,16 @@ rollback() {
 }
 
 check_environment() {
-	local status=0
 	if [ -z "$(which grunt)" ]; then
 		printf "${RED}ERROR: Please install global grunt:${NC}\n"
 		printf "\t$ sudo npm install -g grunt-cli\n"
-		status=1
+		return 1
 	fi
 
 	if [ -z "$(which coffee)" ]; then
 		printf "${RED}ERROR: Please install global coffeescript:${NC}\n"
 		echo "\t$ sudo npm install -g coffee-script"
-		status=1
+		return 1
 	fi
 
 	profile_file="$HOME/.bash_profile"
@@ -82,18 +81,17 @@ check_environment() {
 				printf "Bitbucket api key: "
 				read BOILERPLATE_BBKEY
 			done
-			echo "
 
-# Bitbucket credentials for boilerplate script
-export BOILERPLATE_BBUSER=$BOILERPLATE_BBUSER
-export BOILERPLATE_BBKEY=$BOILERPLATE_BBKEY
+			if [ $(grep -ic BOILERPLATE_BBUSER $profile_file) -eq 0 ]; then
+				echo "export BOILERPLATE_BBUSER=$BOILERPLATE_BBUSER" >> $profile_file
+			fi
 
-" >> $profile_file
+			if [ $(grep -ic BOILERPLATE_BBKEY $profile_file) -eq 0 ]; then
+				echo "export BOILERPLATE_BBKEY=$BOILERPLATE_BBKEY" >> $profile_file
+			fi
 
 			printf "\nTo avoid having to input these variables next time do\n\n"
 			printf "\t$ source ~/.bash_profile\n\n"
-
-			status=0
 		fi
 	fi
 
@@ -103,12 +101,13 @@ export BOILERPLATE_BBKEY=$BOILERPLATE_BBKEY
 				printf "Your name (for the license): "
 				read BOILERPLATE_LICENSE_NAME
 			done
-
-			echo "export BOILERPLATE_LICENSE_NAME=\"$BOILERPLATE_LICENSE_NAME\"" >> $profile_file
+			if [ $(grep -ic BOILERPLATE_LICENSE_NAME $profile_file) -eq 0 ]; then
+				echo "export BOILERPLATE_LICENSE_NAME=\"$BOILERPLATE_LICENSE_NAME\"" >> $profile_file
+			fi
 		fi
 	fi
 
-	return $status
+	return 0
 }
 
 get_boilerplate() {
