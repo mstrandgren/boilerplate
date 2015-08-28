@@ -28,6 +28,8 @@
 
     "grunt-browserify": "*",
     "coffeeify": "*",
+    "coffee-react": "*",
+    "coffee-reactify": "*",
 
     "grunt-contrib-uglify": "*",
     "grunt-cache-bust": "*",
