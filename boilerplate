@@ -32,9 +32,9 @@ create_project() {
 	fi
 
 	printf "\n${GREEN} -------- ALL DONE! -------- ${NC}\n"
-	if [ $backend -eq 1]; then
+	if [ $backend -eq 1 ]; then
 		printf "${CYAN}To run backend, do:${NC}\n\t$ coffee $project_name/app.coffee\n"
-	elif [ $frontend -eq 1]; then
+	elif [ $frontend -eq 1 ]; then
 		printf "${CYAN}To run frontend, do:${NC}\n\t$ cd $project_name && grunt serve\n"
 	else
 		printf "${CYAN}To run backend, do:${NC}\n\t$ coffee $project_name/backend/app.coffee\n"
@@ -100,12 +100,18 @@ export BOILERPLATE_BBKEY=$BOILERPLATE_BBKEY" >> $profile_file
 
 get_boilerplate() {
 	cd $project_dir
-	git clone --depth 1 $BOILERPLATE_REPO || return 1
+
 
 	if [ $branch != "master" ]; then
+		git clone $BOILERPLATE_REPO || return 1
 		printf "Checking out branch $branch...\n"
+		cd boilerplate
 		git checkout $branch || return 1
+		cd $project_dir
+	else
+		git clone --depth 1 $BOILERPLATE_REPO || return 1
 	fi
+
 
 	cp boilerplate/.gitignore .
 
@@ -172,10 +178,10 @@ create_remote_repo() {
 }
 
 create_sublime_project() {
-	sublime_project="$working_dir/$project_name.sublime-project"
-	result=$(echo '{"folders":[{"path": "$project_name","folder_exclude_patterns": ["build", "node_modules", "bower_components"]}]}' > "$sublime-project")
-	if [ $result = 0 ]; then
-		printf "${GREEN}OK: ${NC}Created sublime project at ${CYAN}$sublime_project${NC}\n"
+	sublime_project_path="$working_dir/$project_name.sublime-project"
+	echo '{"folders":[{"path":' "\"$project_name\"" ',"folder_exclude_patterns": ["build", "node_modules", "bower_components"]}]}' > "$sublime_project_path"
+	if [ $? -eq 0 ]; then
+		printf "${GREEN}OK: ${NC}Created sublime project at ${CYAN}$sublime_project_path${NC}\n"
 	else
 		printf "${RED}ERROR: Could not create sublime project"
 	fi
