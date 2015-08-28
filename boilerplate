@@ -32,9 +32,9 @@ create_project() {
 	fi
 
 	printf "\n${GREEN} -------- ALL DONE! -------- ${NC}\n"
-	if [ $backend -eq 1]; then
+	if [ $backend -eq 1 ]; then
 		printf "${CYAN}To run backend, do:${NC}\n\t$ coffee $project_name/app.coffee\n"
-	elif [ $frontend -eq 1]; then
+	elif [ $frontend -eq 1 ]; then
 		printf "${CYAN}To run frontend, do:${NC}\n\t$ cd $project_name && grunt serve\n"
 	else
 		printf "${CYAN}To run backend, do:${NC}\n\t$ coffee $project_name/backend/app.coffee\n"
@@ -55,62 +55,80 @@ rollback() {
 }
 
 check_environment() {
-	local status=0
 	if [ -z "$(which grunt)" ]; then
 		printf "${RED}ERROR: Please install global grunt:${NC}\n"
 		printf "\t$ sudo npm install -g grunt-cli\n"
-		status=1
+		return 1
 	fi
 
 	if [ -z "$(which coffee)" ]; then
 		printf "${RED}ERROR: Please install global coffeescript:${NC}\n"
 		echo "\t$ sudo npm install -g coffee-script"
-		status=1
+		return 1
 	fi
 
-	if [ $remote_repo -eq 0 ]; then
-		return $status
+	profile_file="$HOME/.bash_profile"
+
+	if [ $remote_repo -eq 1 ]; then
+
+		if [ -z "$BOILERPLATE_BBUSER" -o -z "$BOILERPLATE_BBKEY" ]; then
+			while [ -z "$BOILERPLATE_BBUSER" ]; do
+				printf "Bitbucket username: "
+				read BOILERPLATE_BBUSER
+			done
+
+			while [ -z "$BOILERPLATE_BBKEY" ]; do
+				printf "Bitbucket api key: "
+				read BOILERPLATE_BBKEY
+			done
+
+			if [ $(grep -ic BOILERPLATE_BBUSER $profile_file) -eq 0 ]; then
+				echo "export BOILERPLATE_BBUSER=$BOILERPLATE_BBUSER" >> $profile_file
+			fi
+
+			if [ $(grep -ic BOILERPLATE_BBKEY $profile_file) -eq 0 ]; then
+				echo "export BOILERPLATE_BBKEY=$BOILERPLATE_BBKEY" >> $profile_file
+			fi
+
+			printf "\nTo avoid having to input these variables next time do\n\n"
+			printf "\t$ source ~/.bash_profile\n\n"
+		fi
 	fi
 
-	if [ -z "$BOILERPLATE_BBUSER" -o -z "$BOILERPLATE_BBKEY" ]; then
-		while [ -z "$BOILERPLATE_BBUSER" ]; do
-			printf "Bitbucket username: "
-			read BOILERPLATE_BBUSER
-		done
-
-		while [ -z "$BOILERPLATE_BBKEY" ]; do
-			printf "Bitbucket api key: "
-			read BOILERPLATE_BBKEY
-		done
-		profile_file="$HOME/.bash_profile"
-		echo "
-
-# Bitbucket credentials for boilerplate script
-export BOILERPLATE_BBUSER=$BOILERPLATE_BBUSER
-export BOILERPLATE_BBKEY=$BOILERPLATE_BBKEY" >> $profile_file
-
-		printf "\nTo avoid having to input these variables next time do\n\n"
-		printf "\t$ source ~/.bash_profile\n\n"
-
-		status=0
+	if [ $license -eq 1 ]; then
+		if [ -z "$BOILERPLATE_LICENSE_NAME" ]; then
+			while [ -z "$BOILERPLATE_LICENSE_NAME" ]; do
+				printf "Your name (for the license): "
+				read BOILERPLATE_LICENSE_NAME
+			done
+			if [ $(grep -ic BOILERPLATE_LICENSE_NAME $profile_file) -eq 0 ]; then
+				echo "export BOILERPLATE_LICENSE_NAME=\"$BOILERPLATE_LICENSE_NAME\"" >> $profile_file
+			fi
+		fi
 	fi
 
-	return $status
+	return 0
 }
 
 get_boilerplate() {
 	cd $project_dir
-	git clone --depth 1 $BOILERPLATE_REPO || return 1
+
 
 	if [ $branch != "master" ]; then
+		git clone $BOILERPLATE_REPO || return 1
 		printf "Checking out branch $branch...\n"
+		cd boilerplate
 		git checkout $branch || return 1
+		cd $project_dir
+	else
+		git clone --depth 1 $BOILERPLATE_REPO || return 1
 	fi
+
 
 	cp boilerplate/.gitignore .
 
 	if [ $license -eq 1 ]; then
-		cp boilerplate/LICENSE .
+		sed "s/Martin Strandgren/$BOILERPLATE_LICENSE_NAME/" boilerplate/LICENSE > LICENSE
 	fi
 
 	if [ $frontend -eq 1 ]; then
@@ -172,10 +190,15 @@ create_remote_repo() {
 }
 
 create_sublime_project() {
-	sublime_project="$working_dir/$project_name.sublime-project"
-	result=$(echo '{"folders":[{"path": "$project_name","folder_exclude_patterns": ["build", "node_modules", "bower_components"]}]}' > "$sublime-project")
-	if [ $result = 0 ]; then
-		printf "${GREEN}OK: ${NC}Created sublime project at ${CYAN}$sublime_project${NC}\n"
+	sublime_project_path="$project_dir/$project_name.sublime-project"
+	echo '{"folders":[{
+		"path": ".",
+		"file_exclude_patterns": ["*.sublime-project", "*.sublime-workspace"],
+		"folder_exclude_patterns": ["build", "node_modules", "bower_components"]}
+	]}' > "$sublime_project_path"
+
+	if [ $? -eq 0 ]; then
+		printf "${GREEN}OK: ${NC}Created sublime project at ${CYAN}$sublime_project_path${NC}\n"
 	else
 		printf "${RED}ERROR: Could not create sublime project"
 	fi
@@ -192,7 +215,7 @@ Usage: boilerplate [opts] [branch] project_name
 -r		Create remote repo (will prompt for bitbucket credentials the first time)
 -p		Create sublime project
 -b <branch>	Use a specific branch, other than master
--l		Give the project an MIT license (you need to change the name in the license manually)
+-l		Give the project an MIT license
 -h		Show this help message
 "
 
