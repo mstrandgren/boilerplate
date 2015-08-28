@@ -36,9 +36,9 @@ module.exports = (grunt) ->
 		browserify:
 			app:
 				files:
-					'<%= paths.build %>/app.js': ['src/main.coffee']
+					'<%= paths.build %>/app.js': ['src/main.cjsx']
 				options:
-					transform: ['coffeeify']
+					transform: ['coffee-reactify']
 
 		less:
 			all:
