@@ -47,7 +47,7 @@ module.exports = (grunt) ->
 					'src/{,**/}*.cjsx'
 				]
 				tasks: [
-					'browserify:react'
+					'browserify'
 					# 'cacheBust'
 					# 'manifest'
 				]

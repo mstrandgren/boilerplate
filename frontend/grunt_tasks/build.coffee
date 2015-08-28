@@ -21,7 +21,7 @@ module.exports = (grunt) ->
 					'clean'
 					'copy'
 					'less'
-					'browserify:react'
+					'browserify'
 					# 'cacheBust'
 					# 'manifest'
 				]
@@ -34,17 +34,11 @@ module.exports = (grunt) ->
 			template: ['<%= paths.build %>']
 
 		browserify:
-			normal:
+			app:
 				files:
 					'<%= paths.build %>/app.js': ['src/main.coffee']
 				options:
 					transform: ['coffeeify']
-
-			react:
-				files:
-					'<%= paths.build %>/app.js': ['src/main.cjsx']
-				options:
-					transform: ['coffee-reactify']
 
 		less:
 			all:
