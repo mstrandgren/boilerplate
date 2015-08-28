@@ -68,31 +68,44 @@ check_environment() {
 		status=1
 	fi
 
-	if [ $remote_repo -eq 0 ]; then
-		return $status
-	fi
+	profile_file="$HOME/.bash_profile"
 
-	if [ -z "$BOILERPLATE_BBUSER" -o -z "$BOILERPLATE_BBKEY" ]; then
-		while [ -z "$BOILERPLATE_BBUSER" ]; do
-			printf "Bitbucket username: "
-			read BOILERPLATE_BBUSER
-		done
+	if [ $remote_repo -eq 1 ]; then
 
-		while [ -z "$BOILERPLATE_BBKEY" ]; do
-			printf "Bitbucket api key: "
-			read BOILERPLATE_BBKEY
-		done
-		profile_file="$HOME/.bash_profile"
-		echo "
+		if [ -z "$BOILERPLATE_BBUSER" -o -z "$BOILERPLATE_BBKEY" ]; then
+			while [ -z "$BOILERPLATE_BBUSER" ]; do
+				printf "Bitbucket username: "
+				read BOILERPLATE_BBUSER
+			done
+
+			while [ -z "$BOILERPLATE_BBKEY" ]; do
+				printf "Bitbucket api key: "
+				read BOILERPLATE_BBKEY
+			done
+			echo "
 
 # Bitbucket credentials for boilerplate script
 export BOILERPLATE_BBUSER=$BOILERPLATE_BBUSER
-export BOILERPLATE_BBKEY=$BOILERPLATE_BBKEY" >> $profile_file
+export BOILERPLATE_BBKEY=$BOILERPLATE_BBKEY
 
-		printf "\nTo avoid having to input these variables next time do\n\n"
-		printf "\t$ source ~/.bash_profile\n\n"
+" >> $profile_file
 
-		status=0
+			printf "\nTo avoid having to input these variables next time do\n\n"
+			printf "\t$ source ~/.bash_profile\n\n"
+
+			status=0
+		fi
+	fi
+
+	if [ $license -eq 1 ]; then
+		if [ -z "$BOILERPLATE_LICENSE_NAME" ]; then
+			while [ -z "$BOILERPLATE_LICENSE_NAME" ]; do
+				printf "Your name (for the license): "
+				read BOILERPLATE_LICENSE_NAME
+			done
+
+			echo "export BOILERPLATE_LICENSE_NAME=\"$BOILERPLATE_LICENSE_NAME\"" >> $profile_file
+		fi
 	fi
 
 	return $status
@@ -116,7 +129,7 @@ get_boilerplate() {
 	cp boilerplate/.gitignore .
 
 	if [ $license -eq 1 ]; then
-		cp boilerplate/LICENSE .
+		sed "s/Martin Strandgren/$BOILERPLATE_LICENSE_NAME/" boilerplate/LICENSE > LICENSE
 	fi
 
 	if [ $frontend -eq 1 ]; then
