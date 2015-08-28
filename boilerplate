@@ -32,9 +32,14 @@ create_project() {
 	fi
 
 	printf "\n${GREEN} -------- ALL DONE! -------- ${NC}\n"
-	printf "${CYAN}To run backend, do:${NC}\n\t$ coffee backend/app.coffee\n"
-	printf "${CYAN}To run frontend, do:${NC}\n\t$ cd frontend && grunt serve\n"
-
+	if [ $backend -eq 1]; then
+		printf "${CYAN}To run backend, do:${NC}\n\t$ coffee $project_name/app.coffee\n"
+	elif [ $frontend -eq 1]; then
+		printf "${CYAN}To run frontend, do:${NC}\n\t$ cd $project_name && grunt serve\n"
+	else
+		printf "${CYAN}To run backend, do:${NC}\n\t$ coffee $project_name/backend/app.coffee\n"
+		printf "${CYAN}To run frontend, do:${NC}\n\t$ cd $project_name/frontend && grunt serve\n"
+	fi
 }
 
 fatal() {
@@ -108,13 +113,12 @@ get_boilerplate() {
 		cp boilerplate/LICENSE .
 	fi
 
-	if [ $2 = "frontend" ]; then
+	if [ $frontend -eq 1 ]; then
 		cp -Rf boilerplate/frontend/* .
 		frontend_dir="$project_dir"
-	elif [ $2 = "backend" ]; then
+	elif [ $backend -eq 1 ]; then
 		cp -Rf boilerplate/backend/* .
 		backend_dir="$project_dir"
-
 	else
 		cp -Rf boilerplate/backend .
 		cp -Rf boilerplate/frontend .
@@ -224,9 +228,9 @@ if [ -z "$project_name" ]; then
 	exit 1
 fi
 
-if [[ $frontend -eq 0 && $backend -eq 0 ]]; then
-	frontend=1
-	backend=1
+if [[ $frontend -eq 1 && $backend -eq 1 ]]; then
+	frontend=0
+	backend=0
 fi
 
 create_project

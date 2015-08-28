@@ -2,7 +2,7 @@
 server = require('./Server.coffee')
 
 server.start
-	port: process.env.PORT ? 9000
+	httpPort: process.env.PORT ? 9000
 	cors: true
 	webServer: (app) ->
 		app.use (request, response) ->

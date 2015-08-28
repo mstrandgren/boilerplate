@@ -1,5 +1,9 @@
 # Boilerplate Project Setter-Upper
 
+Utility to set up a boilerplate project based on a git repo. This particular
+repo is partial to grunt, coffeescript, browserify, react, and sublime text,
+since that's what I use. It could easily be switched to something else.
+
 ## Usage
 
 1. Clone the repo:
@@ -44,3 +48,12 @@ Usage: boilerplate [opts] [branch] project_name
 2. Change the ```BOILERPLATE_REPO``` in /boilerplate (on the top) to your fork
 3. Go wild
 
+## Pull Requests Welcome
+
+1. Feature branches with different types of projects are conveniently accessible
+through the ```-b``` flag. So PR away for different types of boilerplates.
+
+2. Auto-generating projects for more editors than sublime would be nice. I hear there
+are confused souls that don't use sublime.
+
+3. Can't come up with any more stuff now. Sure someone else can.
