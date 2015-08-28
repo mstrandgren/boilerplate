@@ -1,5 +1,8 @@
 #!/bin/bash
 
+BOILERPLATE_REPO="git@github.com:mstrandgren/boilerplate.git"
+
+
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 CYAN='\033[0;36m'
@@ -92,7 +95,7 @@ export BOILERPLATE_BBKEY=$BOILERPLATE_BBKEY" >> $profile_file
 
 get_boilerplate() {
 	cd $project_dir
-	git clone --depth 1 git@github.com:mstrandgren/boilerplate.git || return 1
+	git clone --depth 1 $BOILERPLATE_REPO || return 1
 
 	if [ $branch != "master" ]; then
 		printf "Checking out branch $branch...\n"
