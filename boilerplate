@@ -8,31 +8,41 @@ NC='\033[0m'
 run() {
 	check_environment || exit 1
 
-	project_name=$1
-	working_dir=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
+	working_dir=$(pwd -P)
 	project_dir="$working_dir/$project_name"
 
-	printf "Setting up project ${CYAN}${project_name}${NC}\n"
-	exit 0
+	printf "Setting up project ${CYAN}${project_name}${NC} in ${CYAN}$project_dir${NC}...\n"
 
-	mkdir $project_dir || printf "${RED}ERROR: $project_dir already exists${NC}\n"; exit 1
+	mkdir $project_dir || fatal "$project_dir already exists"
 
 	get_boilerplate || rollback
 	install_dependencies || rollback
+
 	create_local_repo
-	create_remote_repo
-	create_sublime_project
+
+	if [ $remote_repo -eq 1 ]; then
+		create_remote_repo
+	fi
+
+	if [ $sublime_project -eq 1 ]; then
+		create_sublime_project
+	fi
 
 	printf "\n${GREEN} -------- ALL DONE! -------- ${NC}\n"
-	printf "${CYAN}To run backend, do:${NC}\n    $ coffee backend/app.coffee\n"
-	printf "${CYAN}To run frontend, do:${NC}\n    $ cd frontend && grunt serve\n"
+	printf "${CYAN}To run backend, do:${NC}\n\t$ coffee backend/app.coffee\n"
+	printf "${CYAN}To run frontend, do:${NC}\n\t$ cd frontend && grunt serve\n"
 
-	cd $project_dir
+}
+
+fatal() {
+	printf "${RED}ERROR: $1${NC}\n\n"
+	exit 1
 }
 
 rollback() {
-	printf "\n${RED}Rolling back...\n${NC}"
-	printf "${RED}Deleting $project_name...${NC}\n"
+	printf "\n${RED}Deleting $project_dir...${NC}\n"
+	rm -Rf $project_dir
+	printf "\n${RED}Rollback complete${NC}\n\n"
 	exit 1
 }
 
@@ -40,14 +50,18 @@ check_environment() {
 	local status=0
 	if [ -z "$(which grunt)" ]; then
 		printf "${RED}ERROR: Please install global grunt:${NC}\n"
-		printf "    $ sudo npm install -g grunt-cli\n"
+		printf "\t$ sudo npm install -g grunt-cli\n"
 		status=1
 	fi
 
 	if [ -z "$(which coffee)" ]; then
 		printf "${RED}ERROR: Please install global coffeescript:${NC}\n"
-		echo "    $ sudo npm install -g coffee-script"
+		echo "\t$ sudo npm install -g coffee-script"
 		status=1
+	fi
+
+	if [ $remote_repo -eq 0 ]; then
+		return $status
 	fi
 
 	if [ -z "$BOILERPLATE_BBUSER" -o -z "$BOILERPLATE_BBKEY" ]; then
@@ -61,11 +75,15 @@ check_environment() {
 			read BOILERPLATE_BBKEY
 		done
 		profile_file="$HOME/.bash_profile"
-		echo "" >> $profile_file
-		echo "# Bitbucket credentials for boilerplate script" >> $profile_file
-		echo "export BOILERPLATE_BBUSER=$BOILERPLATE_BBUSER" >> $profile_file
-		echo "export BOILERPLATE_BBKEY=$BOILERPLATE_BBKEY" >> $profile_file
-		source $profile_file
+		echo "
+
+# Bitbucket credentials for boilerplate script
+export BOILERPLATE_BBUSER=$BOILERPLATE_BBUSER
+export BOILERPLATE_BBKEY=$BOILERPLATE_BBKEY" >> $profile_file
+
+		printf "\nTo avoid having to input these variables next time do\n\n"
+		printf "\t$ source ~/.bash_profile\n\n"
+
 		status=0
 	fi
 
@@ -75,6 +93,12 @@ check_environment() {
 get_boilerplate() {
 	cd $project_dir
 	git clone --depth 1 git@github.com:mstrandgren/boilerplate.git || return 1
+
+	if [ $branch != "master" ]; then
+		printf "Checking out branch $branch...\n"
+		git checkout $branch || return 1
+	fi
+
 	cp boilerplate/.gitignore .
 
 	if [ $2 = "frontend" ]; then
@@ -148,31 +172,62 @@ create_sublime_project() {
 }
 
 show_help() {
-	echo "Showing help"
+
+echo "
+Usage: boilerplate [opts] [branch] project_name
+
+-c		Client app only
+-s		Server app only
+-r		Create remote repo (will prompt for bitbucket credentials the first time)
+-p		Create sublime project
+-b <branch>	Use a specific branch, other than master
+-h		Show this help message
+"
+
 }
 
 frontend=0
 backend=0
+remote_repo=0
+sublime_project=0
+branch="master"
 
-while	getopts "hfbrs" opt; do
+while	getopts "hcsrpb:" opt; do
 	case "$opt" in
 		h) show_help; exit 0;;
-		f) frontend=1;;
-		b) backend=1;;
+		c) frontend=1;;
+		s) backend=1;;
 		r) remote_repo=1;;
-		s) sublime_project=1;;
+		p) sublime_project=1;;
+		b) branch=$OPTARG;;
+		\?) show_help; exit 1;;
 	esac
 done
+
+shift "$((OPTIND-1))"
+
+project_name=$1
+
+if [ -z "$project_name" ]; then
+	echo "ERROR: A project name is required"
+	show_help
+	exit 1
+fi
 
 if [[ $frontend -eq 0 && $backend -eq 0 ]]; then
 	frontend=1
 	backend=1
 fi
 
+# echo "frontend: $frontend"
+# echo "backend: $backend"
+# echo "remote_repo: $remote_repo"
+# echo "sublime_project: $sublime_project"
+# echo "branch: $branch"
+# echo "project_name: $project_name"
 
+run
 
-echo "frontend: $frontend"
-echo "backend: $backend"
-echo "remote_repo: $remote_repo"
-echo "sublime_project: $sublime_project"
-
+# Bitbucket credentials for boilerplate script
+# export BOILERPLATE_BBUSER=mostformal
+# export BOILERPLATE_BBKEY=lad7bkoEcaTxt2AmogsvjNGhRsePptaX
