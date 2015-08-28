@@ -38,7 +38,7 @@ Usage: boilerplate [opts] [branch] project_name
 -r		Create remote repo (will prompt for bitbucket credentials the first time)
 -p		Create sublime project
 -b <branch>	Use a specific branch, other than master
--l		Give the project an MIT license (you need to change the name in the license manually)
+-l		Give the project an MIT license
 -h		Show this help message
 ```
 
