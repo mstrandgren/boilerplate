@@ -178,8 +178,13 @@ create_remote_repo() {
 }
 
 create_sublime_project() {
-	sublime_project_path="$working_dir/$project_name.sublime-project"
-	echo '{"folders":[{"path":' "\"$project_name\"" ',"folder_exclude_patterns": ["build", "node_modules", "bower_components"]}]}' > "$sublime_project_path"
+	sublime_project_path="$project_dir/$project_name.sublime-project"
+	echo '{"folders":[{
+		"path": ".",
+		"file_exclude_patterns": ["*.sublime-project", "*.sublime-workspace"],
+		"folder_exclude_patterns": ["build", "node_modules", "bower_components"]}
+	]}' > "$sublime_project_path"
+
 	if [ $? -eq 0 ]; then
 		printf "${GREEN}OK: ${NC}Created sublime project at ${CYAN}$sublime_project_path${NC}\n"
 	else
