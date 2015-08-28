@@ -25,8 +25,8 @@ start = ({
 
 }) ->
 
-	port ?= 9000
-	httpsPort ?= port + 43
+	httpPort ?= 9000
+	httpsPort ?= httpPort + 43
 
 	app = require('express')()
 
@@ -39,7 +39,7 @@ start = ({
 
 	webServer?(app)
 
-	httpServer = proxiedHttp.createServer(app).listen(port)
+	httpServer = proxiedHttp.createServer(app).listen(httpPort)
 
 	options =
 		key: fs.readFileSync(path.resolve(__dirname, 'server.key'))
