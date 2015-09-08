@@ -7,7 +7,7 @@ module.exports = (grunt) ->
 			bower: 'bower_components'
 			deploy: 'boilerplate'
 
-		resource_types: ['jpg','jpeg','png','gif','json','epub']
+		resource_types: ['jpg','jpeg','png','gif','svg', 'json','epub', 'mp4', 'mp3', 'webm', 'woff', 'eot', 'ttf']
 		static_paths: [
 			'bower_components'
 			'resources'

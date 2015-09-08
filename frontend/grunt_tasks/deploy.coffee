@@ -17,7 +17,7 @@ module.exports = (grunt) ->
 
 		aws_s3:
 			options:
-				accesKeyId: '<%= aws.key %>'
+				accessKeyId: '<%= aws.key %>'
 				secretAccessKey: '<%= aws.secret %>'
 				bucket: '<%= aws.bucket %>'
 				region: '<%= aws.region %>'
