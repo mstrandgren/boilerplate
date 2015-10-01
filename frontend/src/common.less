@@ -1,4 +1,6 @@
 @import 'mixins.less';
+@import 'flexbox.less';
+@import 'fa-vars.less';
 
 .hidden {
 	display: none !important;
@@ -16,3 +18,61 @@ body {
 	overflow: hidden;
 }
 
+.icon {
+	&:before {
+		font-family: FontAwesome;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		margin-right: .2em;
+	}
+	text-decoration: none;
+}
+
+.icon.button {
+	background: @gray;
+	color: black;
+	display: inline-block;
+	height: 2em;
+	width: 2em;
+	line-height: 2em;
+	border-radius: 50%;
+	&:before {
+		margin: 0;
+	}
+	&:focus, &:active, &:hover {
+		outline: none;
+		background-color: white;
+	}
+}
+
+.twitter:before {
+	content: @fa-var-twitter;
+}
+
+.facebook:before {
+	content: @fa-var-facebook;
+}
+
+.instagram:before {
+	content: @fa-var-instagram;
+}
+
+
+
+// @font-face {
+// 	font-family: 'ambroise_blackregular';
+// 	src: url('res/fonts/ambroise-black-opentype-webfont.eot');
+// 	src: url('res/fonts/ambroise-black-opentype-webfont.eot?#iefix') format('embedded-opentype'),
+// 		url('res/fonts/ambroise-black-opentype-webfont.woff2') format('woff2'),
+// 		url('res/fonts/ambroise-black-opentype-webfont.woff') format('woff'),
+// 		url('res/fonts/ambroise-black-opentype-webfont.ttf') format('truetype'),
+// 		url('res/fonts/ambroise-black-opentype-webfont.svg#ambroise_blackregular') format('svg');
+// 	font-weight: normal;
+// 	font-style: normal;
+// }
+
+// @media screen and (max-width: 500px) {
+// body {
+// 	font-size: .8em;
+// }
+// }
