@@ -1,9 +1,8 @@
 
-server = require('./Server.coffee')
+server = require('mflib/Server')
 
-port = process.env.PORT ? 9000
 server.start
-	httpPort: port
+	port: process.env.PORT
 	cors: true
 	webServer: (app) ->
 		app.use (request, response) ->
