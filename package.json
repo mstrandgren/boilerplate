@@ -1,0 +1,23 @@
+{
+  "name": "mf-boilerplate",
+  "version": "0.0.3",
+  "bin": {
+    "boilerplate": "./bin/boilerplate"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:mstrandgren/boilerplate.git"
+  },
+  "dependencies": {
+  },
+  "engines": {
+    "node": ">=0.12.0"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-bump": "^0.6.0",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-copy": "^0.8.1",
+    "load-grunt-tasks": "^3.3.0"
+  }
+}
