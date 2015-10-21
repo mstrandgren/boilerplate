@@ -3,32 +3,27 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "mflib": "*",
-    "font-awesome": "*",
-    "flex-less": "*"
+    "font-awesome": "^4.4.0",
+    "mflib": "*"
   },
   "engines": {
     "node": ">=0.12.0"
   },
   "devDependencies": {
+    "autoprefixer": "^6.0.3",
+    "coffee-react": "*",
+    "coffee-reactify": "^4.0.0",
+    "coffeeify": "*",
     "grunt": "*",
-
-    "load-grunt-tasks": "*",
-
+    "grunt-aws-s3": "*",
+    "grunt-browserify": "*",
+    "grunt-connect-proxy": "*",
     "grunt-contrib-clean": "*",
+    "grunt-contrib-connect": "*",
     "grunt-contrib-copy": "*",
     "grunt-contrib-less": "*",
-
-    "grunt-contrib-connect": "*",
-
-    "grunt-connect-proxy": "*",
     "grunt-contrib-watch": "*",
-
-    "grunt-browserify": "*",
-    "coffeeify": "*",
-    "coffee-react": "*",
-    "coffee-reactify": "*",
-
-    "grunt-aws-s3": "*"
+    "grunt-postcss": "^0.6.0",
+    "load-grunt-tasks": "*"
   }
 }

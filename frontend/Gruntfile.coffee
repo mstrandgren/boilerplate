@@ -7,13 +7,24 @@ module.exports = (grunt) ->
 
 	grunt.config.merge
 		mf:
-			aws: grunt.file.readJSON('grunt-aws.json')
+			# aws: grunt.file.readJSON('grunt-aws.json')
+			coffeeIn: 'main.cjsx'
 			# jsOut: 'app.js'
 			# port: 9001
-			deployPath: ''
+			deployPath:
+				production: ''
+				stage: ''
 			buckets:
 				production: ''
 				stage: ''
+
+		source_types: grunt.config.get('source_types').concat(['cjsx'])
+		browserify:
+			all:
+				options:
+					transform: ['coffee-reactify']
+					browserifyOptions:
+						extensions: ['.coffee', '.cjsx']
 
 
 	grunt.registerTask('default', ['build'])
