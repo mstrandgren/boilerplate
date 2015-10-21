@@ -1,4 +1,4 @@
-Ajax = require('./Ajax.coffee')
+Ajax = require('mflib/Ajax')
 
 document.addEventListener 'DOMContentLoaded', ->
 	console.log "Hello, world"

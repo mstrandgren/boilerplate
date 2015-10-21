@@ -1,5 +1,5 @@
 {
-  "name": "app",
+  "name": "boilerplate-backend",
   "version": "0.0.0",
   "private": true,
   "dependencies": {
@@ -9,11 +9,12 @@
     "http": "*",
     "https": "*",
     "lodash": "*",
+    "mflib": "*",
     "promise": "*",
     "proxywrap": "*",
     "ws": "*"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=0.12.0"
   }
 }

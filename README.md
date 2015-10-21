@@ -1,30 +1,14 @@
-# Boilerplate Project Setter-Upper
+# A Most Formal Boilerplate Project Setter-Upper
 
 Utility to set up a boilerplate project based on a git repo. This particular
 repo is partial to grunt, coffeescript, browserify, react, and sublime text,
-since that's what I use. It could easily be switched to something else.
+since that's what I use. It could easily be amended with other tools.
 
 ## Usage
 
-1. Clone the repo:
+```
+$ npm install -g mf-boilerplate
 
-```
-$ git clone -d 1 git@github.com:mstrandgren/boilerplate.git
-```
-
-2. Set execution rights and copy the script someplace nice
-
-```
-$ chmod 755 boilerplate/boilerplate && cp boilerplate/boilerplate /usr/local/bin
-```
-
-3. Remove the local clone again (optional)
-```
-$ rm -rf boilerplate
-```
-
-4. Now set up a new project like so:
-```
 $ boilerplate my-new-project
 ```
 
@@ -45,7 +29,7 @@ Usage: boilerplate [opts] [branch] project_name
 ## To Customize
 
 1. Fork the repo
-2. Change the ```BOILERPLATE_REPO``` in /boilerplate (on the top) to your fork
+2. Change the ```BOILERPLATE_REPO``` in ```bin/boilerplate``` (on the top) to your fork
 3. Go wild
 
 ## Pull Requests Welcome
