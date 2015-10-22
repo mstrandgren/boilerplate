@@ -4,13 +4,14 @@
   "private": true,
   "dependencies": {
     "mflib": "*",
-    "font-awesome": "*",
-    "flex-less": "*"
+    "font-awesome": "*"
   },
   "engines": {
     "node": ">=0.12.0"
   },
   "devDependencies": {
+    "autoprefixer": "^6.0.3",
+    "coffeeify": "*",
     "grunt": "*",
 
     "load-grunt-tasks": "*",
@@ -25,7 +26,7 @@
     "grunt-contrib-watch": "*",
 
     "grunt-browserify": "*",
-    "coffeeify": "*",
+    "grunt-postcss": "^0.6.0",
 
     "grunt-aws-s3": "*"
   }
