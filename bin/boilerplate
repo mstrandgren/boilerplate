@@ -153,7 +153,6 @@ install_dependencies() {
 	if [ -n "$frontend_dir" ]; then
 		cd $frontend_dir
 		npm install || return 1
-		bower install || return 1
 		grunt build || return 1
 	fi
 
