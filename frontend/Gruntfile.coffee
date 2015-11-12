@@ -10,7 +10,9 @@ module.exports = (grunt) ->
 			# aws: grunt.file.readJSON('grunt-aws.json')
 			# jsOut: 'app.js'
 			# port: 9001
-			deployPath: ''
+			deployPath:
+				production: ''
+				stage: ''
 			bucket:
 				production: ''
 				stage: ''
