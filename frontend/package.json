@@ -3,27 +3,32 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "font-awesome": "^4.4.0",
-    "mflib": "*"
+    "lodash": "^3.10.1",
+    "mflib": "latest",
+    "react": "^0.14.0",
+    "react-addons": "^0.9.0",
+    "react-dom": "^0.14.0",
+    "react-router": "^1.0.0",
+    "font-awesome": "^4.4.0"
   },
   "engines": {
     "node": ">=0.12.0"
   },
   "devDependencies": {
-    "autoprefixer": "^6.0.3",
-    "coffee-react": "*",
-    "coffee-reactify": "^4.0.0",
-    "coffeeify": "*",
-    "grunt": "*",
-    "grunt-aws-s3": "*",
-    "grunt-browserify": "*",
-    "grunt-connect-proxy": "*",
-    "grunt-contrib-clean": "*",
-    "grunt-contrib-connect": "*",
-    "grunt-contrib-copy": "*",
-    "grunt-contrib-less": "*",
-    "grunt-contrib-watch": "*",
-    "grunt-postcss": "^0.6.0",
-    "load-grunt-tasks": "*"
+    "autoprefixer": "latest",
+    "coffee-react": "latest",
+    "coffee-reactify": "latest",
+    "coffeeify": "latest",
+    "grunt": "latest",
+    "grunt-aws-s3": "latest",
+    "grunt-browserify": "latest",
+    "grunt-connect-proxy": "latest",
+    "grunt-contrib-clean": "latest",
+    "grunt-contrib-connect": "latest",
+    "grunt-contrib-copy": "latest",
+    "grunt-contrib-less": "latest",
+    "grunt-contrib-watch": "latest",
+    "grunt-postcss": "latest",
+    "load-grunt-tasks": "alatest"
   }
 }

@@ -1,6 +1,8 @@
+React = require('react')
+{render} = require('react-dom')
 
 document.addEventListener 'DOMContentLoaded', ->
-	React.render(<Hello />, document.body)
+	render(<Hello />, document.body)
 
 Hello = React.createClass
 	render: ->

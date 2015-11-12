@@ -4,28 +4,28 @@ module.exports = (grunt) ->
 	require('mflib/grunt/build')(grunt)
 	require('mflib/grunt/serve')(grunt)
 	require('mflib/grunt/deploy')(grunt)
+	require('mflib/grunt/react')(grunt)
 
 	grunt.config.merge
 		mf:
 			# aws: grunt.file.readJSON('grunt-aws.json')
-			# jsOut: 'app.js'
-			# port: 9001
-			deployPath: ''
+			coffeeIn: 'main.cjsx'
+			deployPath:
+				production: ''
+				stage: ''
 			bucket:
 				production: ''
 				stage: ''
+
 			dependencies: [
 					'lodash'
-					'es6-shim'
-			]
-
-		source_types: grunt.config.get('source_types').concat(['cjsx'])
-		browserify:
-			all:
-				options:
-					transform: ['coffee-reactify']
-					browserifyOptions:
-						extensions: ['.coffee', '.cjsx']
-
+					'react'
+					'react-dom'
+					'react-router'
+					'react-addons-css-transition-group'
+					'sha1'
+					'history/lib/createBrowserHistory'
+				]
 
 	grunt.registerTask('default', ['build'])
+
