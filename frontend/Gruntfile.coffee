@@ -8,15 +8,16 @@ module.exports = (grunt) ->
 	grunt.config.merge
 		mf:
 			# aws: grunt.file.readJSON('grunt-aws.json')
-			coffeeIn: 'main.cjsx'
 			# jsOut: 'app.js'
 			# port: 9001
-			deployPath:
+			deployPath: ''
+			bucket:
 				production: ''
 				stage: ''
-			buckets:
-				production: ''
-				stage: ''
+			dependencies: [
+					'lodash'
+					'es6-shim'
+			]
 
 		source_types: grunt.config.get('source_types').concat(['cjsx'])
 		browserify:

@@ -18,6 +18,8 @@ module.exports = (grunt) ->
 					"bin/{,**/}*"
 					"package.json"
 					"README.md"
+					".gitignore"
+					"LICENSE"
 				]
 				dest: 'build'
 
