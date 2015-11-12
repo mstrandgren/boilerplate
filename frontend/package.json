@@ -3,31 +3,27 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "mflib": "*",
-    "font-awesome": "*"
+    "mflib": "latest",
+    "font-awesome": "latest",
+    "lodash": "latest",
+    "es6-shim": "latest"
   },
   "engines": {
     "node": ">=0.12.0"
   },
   "devDependencies": {
-    "autoprefixer": "^6.0.3",
-    "coffeeify": "*",
-    "grunt": "*",
-
-    "load-grunt-tasks": "*",
-
-    "grunt-contrib-clean": "*",
-    "grunt-contrib-copy": "*",
-    "grunt-contrib-less": "*",
-
-    "grunt-contrib-connect": "*",
-
-    "grunt-connect-proxy": "*",
-    "grunt-contrib-watch": "*",
-
-    "grunt-browserify": "*",
-    "grunt-postcss": "^0.6.0",
-
-    "grunt-aws-s3": "*"
+    "autoprefixer": "latest",
+    "coffeeify": "latest",
+    "grunt": "latest",
+    "grunt-aws-s3": "latest",
+    "grunt-browserify": "latest",
+    "grunt-connect-proxy": "latest",
+    "grunt-contrib-clean": "latest",
+    "grunt-contrib-connect": "latest",
+    "grunt-contrib-copy": "latest",
+    "grunt-contrib-less": "latest",
+    "grunt-contrib-watch": "latest",
+    "grunt-postcss": "latest",
+    "load-grunt-tasks": "latest"
   }
 }

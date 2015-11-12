@@ -3,16 +3,16 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "coffee-script": "*",
-    "connect": "*",
-    "express": "*",
-    "http": "*",
-    "https": "*",
-    "lodash": "*",
-    "mflib": "*",
-    "promise": "*",
-    "proxywrap": "*",
-    "ws": "*"
+    "coffee-script": "latest",
+    "connect": "latest",
+    "express": "latest",
+    "http": "latest",
+    "https": "latest",
+    "lodash": "latest",
+    "mflib": "latest",
+    "promise": "latest",
+    "proxywrap": "latest",
+    "ws": "latest"
   },
   "engines": {
     "node": ">=0.12.0"

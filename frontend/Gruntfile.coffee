@@ -7,13 +7,17 @@ module.exports = (grunt) ->
 
 	grunt.config.merge
 		mf:
-			aws: grunt.file.readJSON('grunt-aws.json')
+			# aws: grunt.file.readJSON('grunt-aws.json')
 			# jsOut: 'app.js'
 			# port: 9001
 			deployPath: ''
-			buckets:
+			bucket:
 				production: ''
 				stage: ''
+			dependencies: [
+					'lodash'
+					'es6-shim'
+			]
 
 
 	grunt.registerTask('default', ['build'])
