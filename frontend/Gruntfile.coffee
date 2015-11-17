@@ -23,7 +23,6 @@ module.exports = (grunt) ->
 					'react-dom'
 					'react-router'
 					'react-addons-css-transition-group'
-					'sha1'
 					'history/lib/createBrowserHistory'
 				]
 
