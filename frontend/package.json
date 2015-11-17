@@ -29,6 +29,6 @@
     "grunt-contrib-less": "latest",
     "grunt-contrib-watch": "latest",
     "grunt-postcss": "latest",
-    "load-grunt-tasks": "alatest"
+    "load-grunt-tasks": "latest"
   }
 }
